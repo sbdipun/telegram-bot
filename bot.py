@@ -63,7 +63,7 @@ def screenshot(client, message: Message):
     except Exception as e:
         message.reply_text("An error occurred: " + str(e))
 
-if name == "main":
+if __name__ == '__main__':
     while True:
         try:
             app.run()
