@@ -1,1 +1,1 @@
-app: python3 main.py
+worker: python bot.py
