@@ -5,7 +5,7 @@
     "success_url": "https://t.me/kingsb007",
     "stack": "container",
     "env": {
-        "BOT_TOKEN": {
+        "bot_token": {
 
         "description": "Your bot token Generated from Botfather.",
 
@@ -13,7 +13,7 @@
 
         },
 
-        "API_ID": {
+        "api_id": {
 
         "description": "Get this value from https://my.telegram.org",
 
@@ -21,7 +21,7 @@
 
         },
 
-        "API_HASH": {
+        "api_hash": {
 
         "description": "Get this value from https://my.telegram.org",
 
