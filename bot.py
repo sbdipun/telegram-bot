@@ -12,13 +12,17 @@ api_id = os.getenv("API_ID")
 api_hash = os.getenv("API_HASH")
 bot_token = os.getenv("BOT_TOKEN")
 
+if not api_id or not api_hash or not bot_token:
+    raise ValueError("API_ID, API_HASH, and BOT_TOKEN environment variables must be set")
+
+
 # Function to extract random screenshots from video
 def generate_screenshots(video_path, count=10):
     file_duration = int(ffmpeg.probe(video_path)['format']['duration'].split('.')[0])
     points = sorted(random.sample(range(file_duration), count))
     screenshots = []
-    for point in points:
-        img_file = f"{point}.png"
+    for idx, point in enumerate(points):
+        img_file = f"screenshot_{idx}_{point}.png"
         (
             ffmpeg
                 .input(video_path, ss=point)
@@ -59,13 +63,6 @@ def screenshot(client, message: Message):
     except Exception as e:
         message.reply_text("An error occurred: " + str(e))
 
-if __name__ == '__main__':
-    while True:
-        try:
-            app.run()
-        except KeyboardInterrupt:
-            print("Bot stopped by user")
-            break
-        except Exception as e:
-            print(f"Error: {e}")
-            print("Bot restarting...")
+if name == 'main':
+     print("Bot is running...")
+    app.run()
