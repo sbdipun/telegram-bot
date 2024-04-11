@@ -34,7 +34,7 @@ def cleanup_files(file_list):
         if os.path.exists(file_path):
             os.remove(file_path)
 
-app = Client(api_id=api_id, api_hash=api_hash, bot_token=bot_token)
+app = Client("bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
 @app.on_message(filters.command("start"))
 def start(client, message: Message):
