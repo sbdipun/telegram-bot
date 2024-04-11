@@ -2,5 +2,4 @@ pyrogram
 tgcrypto
 python-dotenv
 ffmpeg-python
-python==12.3.0
 ffmpeg
