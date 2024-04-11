@@ -1,0 +1,32 @@
+{
+    "name": "telegram-bot",
+    "description": "Generate High Quality Sreenshootst",
+    "repository": "https://github.com/sbdipun/telegram-bot",
+    "success_url": "https://t.me/kingsb007",
+    "stack": "container",
+    "env": {
+        "BOT_TOKEN": {
+
+        "description": "Your bot token, as a string.",
+
+        "value": ""
+
+        },
+
+        "API_ID": {
+
+        "description": "Get this value from https://my.telegram.org",
+
+        "value": ""
+
+        },
+
+        "API_HASH": {
+
+        "description": "Get this value from https://my.telegram.org",
+
+        "value": ""
+
+        }
+    }
+}
