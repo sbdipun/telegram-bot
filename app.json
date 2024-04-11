@@ -7,7 +7,7 @@
     "env": {
         "BOT_TOKEN": {
 
-        "description": "Your bot token, as a string.",
+        "description": "Your bot token Generated from Botfather.",
 
         "value": ""
 
