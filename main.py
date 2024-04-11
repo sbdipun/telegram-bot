@@ -42,7 +42,7 @@ app = Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
 @app.on_message(filters.command("start"))
 def start(client, message: Message):
-    message.reply_text("Welcome! Use /ss to generate screenshots of a video.")
+    message.reply_text("Welcome! I Can Generate High Quality PNG Screenshots Of a Video. Just a Media file and Reply /ss.")
 
 @app.on_message(filters.command("ss") & filters.reply & filters.video)
 def screenshot(client, message: Message):
