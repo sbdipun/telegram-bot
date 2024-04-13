@@ -49,7 +49,7 @@ async def joke_handler(event):
 
 @client.on(events.NewMessage(pattern='/about'))
 async def about_handler(event):
-  await event.respond("I'm a friendly Telegram bot still learning new tricks. I'm powered by Python", reply_markup=markup) 
+  await event.respond("I'm a friendly Telegram bot still learning new tricks. I'm powered by Python")
 
 
 @client.on(events.NewMessage(pattern='/inspire'))
