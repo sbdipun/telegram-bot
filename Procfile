@@ -1,1 +1,1 @@
-worker: python bot.py
+clint: python bot.py
