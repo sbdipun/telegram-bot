@@ -1,4 +1,5 @@
 import asyncio
+import telethon
 import os
 import dotenv
 import logging
