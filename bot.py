@@ -1,4 +1,3 @@
-import asyncio
 import os
 import requests
 from telethon import TelegramClient, events
@@ -6,8 +5,8 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-api_id = int(os.getenv("api_id")) 
-api_hash = os.getenv("api_hash") 
+api_id = int(os.getenv("api_id"))
+api_hash = os.getenv("api_hash")
 bot_token = os.getenv("bot_token")
 YOUR_CHAT_ID = 1164918935  # Replace with your Telegram chat ID
 
@@ -35,7 +34,7 @@ async def inspire_handler(event):
     response = requests.get("https://api.quotable.io/random")
     if response.status_code == 200:
         quote_data = response.json()
-        quote = f"{quote_data['content']} - {quote_data['author']}" 
+        quote = f"{quote_data['content']} - {quote_data['author']}"
         await event.respond(quote)
     else:
         await event.respond("Oops, I couldn't fetch a quote right now. Try again later.")
