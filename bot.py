@@ -1,14 +1,8 @@
 import asyncio
 import os
-import logging
 import requests
 from telethon import TelegramClient, events
 from dotenv import load_dotenv
-
-# Initialize and configure logging
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv()
@@ -16,8 +10,6 @@ api_id = int(os.getenv("api_id"))
 api_hash = os.getenv("api_hash") 
 bot_token = os.getenv("bot_token")
 YOUR_CHAT_ID = 1164918935  # Replace with your Telegram chat ID
-
-client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
 
 @client.on(events.NewMessage(pattern='/start'))
 async def start_handler(event):
@@ -49,16 +41,17 @@ async def inspire_handler(event):
 # ... Add more event handlers for /joke, /about, etc.
 
 async def main():
-    logger.info("Bot has started!")
-    
+    client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
+    print("Bot has started!")  # Basic startup indication 
+
     try:
         await client.run_until_disconnected()
     except Exception as e:
-        logger.exception("An error occurred: %s", e)  
-        await client.send_message(YOUR_CHAT_ID, f"An error occurred in the bot: {e}")  
+        print(f"An error occurred: {e}")  
+        await client.send_message(YOUR_CHAT_ID, f"An error occurred in the bot: {e}") 
     finally:
-        await client.disconnect()  # Ensure proper cleanup 
-        logger.info("Bot has stopped!")
+        await client.disconnect() 
+        print("Bot has stopped!")
 
 if __name__ == '__main__':
     asyncio.run(main()) 
