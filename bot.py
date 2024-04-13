@@ -3,7 +3,8 @@ import os
 import requests
 import random
 from telethon import TelegramClient, events
-from telethon.tl.types import InlineKeyboardMarkup, InlineKeyboardButton
+from telethon.tl.functions.messages import SendMessageRequest
+from telethon.tl.types import ReplyInlineMarkup, KeyboardButtonUrl
 from dotenv import load_dotenv
 
 # Load environment variables
