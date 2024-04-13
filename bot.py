@@ -1,7 +1,7 @@
 import asyncio
 import logging
 from telethon import TelegramClient, events
-from handlers import text, info
+from modules import text, info
 
 # Initialize and configure logging
 logging.basicConfig(level=logging.INFO,
