@@ -16,17 +16,16 @@ YOUR_CHAT_ID = 1164918935  # Replace with your Telegram chat ID
 client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
 
 #pixeldrain function
-@client.on(events.NewMessage(pattern='/pixel'))
+ @client.on(events.NewMessage(pattern='/pixel'))
 async def pixel_handler(event):
     message_text = event.message.text
     args = message_text.split()[1:]
 
     if args:
-        download_url = args[0]
-        file_name = download_url.split('/')[-1]
-        await download_and_upload(event, download_url, file_name)
+        await process_pixel_command(event)  # Call the updated function
     else:
         await event.reply("Please provide a direct download link after the /pixel command.")
+        
         
 @client.on(events.NewMessage(pattern='/start'))
 async def start_handler(event):
