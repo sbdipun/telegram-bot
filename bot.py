@@ -1,7 +1,5 @@
 import asyncio
-import telethon
 import os
-import dotenv
 import logging
 from telethon import TelegramClient, events
 from modules import text, info
@@ -13,8 +11,8 @@ logging.basicConfig(level=logging.INFO,
 logger = logging.getLogger(__name__)
 
 api_id = int(os.getenv("api_id"))  # Your API ID
-api_hash = ("api_hash") # Your API Hash
-bot_token = ("bot_token")  # Your Bot Token
+api_hash = os.getenv("api_hash") # Your API Hash
+bot_token = os.getenv("bot_token")  # Your Bot Token
 
 client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
 
