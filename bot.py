@@ -45,7 +45,7 @@ async def inspire_handler(event):
 def main():
     """Start the bot."""
     print("\nBot started ...\n")
-    bot.run_until_disconnected()
+    client.run_until_disconnected()
 
 if __name__ == '__main__':
     main()
