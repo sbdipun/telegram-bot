@@ -31,5 +31,5 @@ async def main():
         # Optional: perform cleanup here if needed when the bot is stopped
         logger.info("Bot has stopped!")
 
-if name == 'main':
+if __name__ == '__main__':
     asyncio.run(main())
