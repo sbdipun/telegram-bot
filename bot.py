@@ -6,7 +6,7 @@ from modules import text, info
 # Initialize and configure logging
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(name)
+logger = logging.getLogger(__name__)
 
 api_id = int(os.getenv("api_id"))  # Your API ID
 api_hash = ("api_hash") # Your API Hash
