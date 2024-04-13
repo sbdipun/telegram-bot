@@ -42,17 +42,10 @@ async def inspire_handler(event):
 
 # ... Add more event handlers for /joke, /about, etc.
 
-async def main():
-    print("Bot has started!")  # Basic startup indication 
-
-    try:
-        await client.run_until_disconnected()
-    except Exception as e:
-        print(f"An error occurred: {e}")  
-        await client.send_message(YOUR_CHAT_ID, f"An error occurred in the bot: {e}") 
-    finally:
-        await client.disconnect() 
-        print("Bot has stopped!")
+def main():
+    """Start the bot."""
+    print("\nBot started ...\n")
+    bot.run_until_disconnected()
 
 if __name__ == '__main__':
-    asyncio.run(main()) 
+    main()
