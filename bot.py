@@ -16,7 +16,7 @@ YOUR_CHAT_ID = 1164918935  # Replace with your Telegram chat ID
 client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
 
 #pixeldrain function
- @client.on(events.NewMessage(pattern='/pixel'))
+@client.on(events.NewMessage(pattern='/pixel'))
 async def pixel_handler(event):
     message_text = event.message.text
     args = message_text.split()[1:]
