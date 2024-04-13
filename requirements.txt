@@ -1,5 +1,5 @@
-tgcrypto
+telethon
 pyrogram
 python-dotenv
-ffmpeg-python
+
 
