@@ -11,6 +11,8 @@ api_hash = os.getenv("api_hash")
 bot_token = os.getenv("bot_token")
 YOUR_CHAT_ID = 1164918935  # Replace with your Telegram chat ID
 
+client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
+
 @client.on(events.NewMessage(pattern='/start'))
 async def start_handler(event):
     await event.respond(f"Greetings, {event.sender.first_name}! 👋 I'm your friendly bot. Let's explore what I can do. Type /help to get a list of commands.")
@@ -41,7 +43,6 @@ async def inspire_handler(event):
 # ... Add more event handlers for /joke, /about, etc.
 
 async def main():
-    client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
     print("Bot has started!")  # Basic startup indication 
 
     try:
