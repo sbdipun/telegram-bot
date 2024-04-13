@@ -2,7 +2,6 @@ import asyncio
 import os
 import logging
 from telethon import TelegramClient, events
-from modules import text, info
 from dotenv import load_dotenv
 
 # Initialize and configure logging
@@ -16,12 +15,27 @@ bot_token = os.getenv("bot_token")  # Your Bot Token
 
 client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
 
-# Registering handlers from the handlers package
-client.add_event_handler(info.info_handler)
-client.add_event_handler(text.text_handler)
+@client.on(events.NewMessage(pattern='/start'))
+async def start_handler(event):
+    await event.respond(f"Greetings, {event.sender.first_name}! 👋 I'm your friendly bot. Let's explore what I can do. Type /help to get a list of commands.")
+
+@client.on(events.NewMessage(pattern='/help'))
+async def help_handler(event):
+    help_message = """
+**✨ Available Commands ✨**
+
+* /start - Get a warm welcome.
+* /help -  You're already here!
+* /inspire -  Receive a dose of motivation.
+* /joke - Tell me a funny joke. 
+* /about - Learn a bit more about me.  
+    """
+    await event.respond(help_message)
+
+# ... (Add handlers for other commands later: /inspire, /joke, /about) 
 
 async def main():
-    # Log on startup instead of printing to the console
+     # Log on startup instead of printing to the console
     logger.info("Bot has started!")
     
     try:
