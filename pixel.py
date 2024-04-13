@@ -29,18 +29,26 @@ async def upload_to_pixeldrain(event, file_content, file_name):
 
 # Updated to handle the rename functionality
 async def process_pixel_command(event):
-    message_text = event.message.text  
-    args = message_text.split()[1:] 
+    message_text = event.message.text
+    args = message_text.split()[1:]
 
-    # Argument parsing
     parser = argparse.ArgumentParser()
     parser.add_argument('-n', '--name', help='Custom file name with extension')
-    parsed_args = parser.parse_args(args)
+    parser.add_argument('download_url', help="The direct download link to the file")  
 
-    if parsed_args.name:
-        file_name = parsed_args.name
-    else:
-        download_url = args[0]
-        file_name = download_url.split('/')[-1]  
+    try:
+        parsed_args = parser.parse_args(args)
 
-    await download_and_upload(event, download_url, file_name)
+        if parsed_args.name:
+            file_name = parsed_args.name
+        else:
+            file_name = parsed_args.download_url.split('/')[-1]
+
+        await download_and_upload(event, parsed_args.download_url, file_name)
+
+    except argparse.ArgumentError:
+        await event.reply("Error: Incorrect command usage. Please use the format: /pixel download_link [-n custom_filename.ext]")
+
+    except requests.exceptions.RequestException as e:
+        await event.reply(f"Error downloading file: {e}")
+        
