@@ -3,8 +3,6 @@ import os
 import requests
 import random
 from telethon import TelegramClient, events
-from telethon.tl.functions.messages import SendMessageRequest
-from telethon.tl.types import ReplyInlineMarkup, KeyboardButtonUrl
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -51,18 +49,7 @@ async def joke_handler(event):
 
 @client.on(events.NewMessage(pattern='/about'))
 async def about_handler(event):
-    markup = InlineKeyboardMarkup(
-        [
-            [  # First row
-                InlineKeyboardButton("My Dev", url="https://t.me/kinsboo7")
-            ],
-            [  # Second row
-                InlineKeyboardButton("Owner", url="https://t.me/slo_dev")
-            ]
-        ]
-    )
-
-    await event.respond("I'm a friendly Telegram bot still learning new tricks. I'm powered by Python", reply_markup=markup) 
+  await event.respond("I'm a friendly Telegram bot still learning new tricks. I'm powered by Python", reply_markup=markup) 
 
 
 @client.on(events.NewMessage(pattern='/inspire'))
