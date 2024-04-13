@@ -1,7 +1,12 @@
 import asyncio
+import os
+import dotenv
+import json, logging,asyncio, requests
 import logging
 from telethon import TelegramClient, events
 from modules import text, info
+from dotenv import load_dotenv
+loadenv()
 
 # Initialize and configure logging
 logging.basicConfig(level=logging.INFO,
