@@ -1,4 +1,3 @@
-
 from telethon import events
 
 @events.register(events.NewMessage(pattern='/info'))
