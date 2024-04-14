@@ -45,30 +45,29 @@ async def process_pixel_command(event):
 async def download_and_upload(event, download_url, file_name):
     try:
         # Download with Progress Bar
+        progress_dots = "●●●●●●●●●●"  
         async with TelegramClient('temp_session', api_id, api_hash) as temp_client:
             async with temp_client.download_file(download_url, file=file_name) as download_progress:  
                 async for chunk in download_progress:
+                    progress = int(10 * download_progress.downloaded_bytes / download_progress.total_bytes_expected)
                     await event.reply( 
-                        f"Downloading: {format_bytes(download_progress.downloaded_bytes)} of {format_bytes(download_progress.total_bytes_expected)}",
+                        f"Downloading: {format_bytes(download_progress.downloaded_bytes)} of {format_bytes(download_progress.total_bytes_expected)} "
+                        f"{progress_dots[:progress]}{'■' * (10 - progress)}",
                         file=chunk,
-                        progress_bar=True
-                    )
+                    )  
 
         # Upload with Progress Bar:
-        await event.respond("Uploading to Pixeldrain...", file=file_name, progress_bar=True)  
+        progress_dots = "●●●●●●●●●●" 
+        async for chunk in event.client.iter_upload(file=file_name):
+            progress = int(10 * chunk.current_bytes / chunk.total_bytes)
+            await event.respond(
+                f"Uploading to Pixeldrain: {format_bytes(chunk.current_bytes)} of {format_bytes(chunk.total_bytes)} " 
+                f"{progress_dots[:progress]}{'■' * (10 - progress)}"  
+            ) 
 
-        # Pixeldrain Upload (same as before)
-        response = requests.post(
-            PIXELDRAIN_API_URL,
-            data={"name": file_name, "anonymous": True},
-            files={"file": open(file_name, 'rb')}  
-        )
-        response.raise_for_status() 
-        resp = response.json()
-        await event.reply(f"https://pixeldrain.com/u/{resp['id']}")
+        # ... (Rest of your Pixeldrain upload code)
 
     except requests.exceptions.RequestException as e:
         await event.reply(f"Error downloading file: {e}")
 
-# ... (Rest of your bot setup functions )
-
+# ... (Rest of your bot setup functions and main function)
