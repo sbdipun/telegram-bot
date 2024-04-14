@@ -8,6 +8,11 @@ from dotenv import load_dotenv
 # Pixeldrain API settings
 PIXELDRAIN_API_URL = "https://pixeldrain.com/api/file"
 
+# ... using Loadenv
+load_dotenv()
+api_id = int(os.getenv("api_id"))
+api_hash = os.getenv("api_hash")  
+
 # Your formatting function
 def format_bytes(num_bytes):
     if num_bytes < 1024:
