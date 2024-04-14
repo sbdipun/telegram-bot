@@ -1,5 +1,6 @@
 import asyncio
 import os
+from progress_for_telethon import progress2
 import requests
 import random
 from telethon import TelegramClient, events
