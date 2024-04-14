@@ -1,22 +1,9 @@
 import asyncio
 import requests
-import tqdm
 from telethon import TelegramClient
-from telethon.utils import format_bytes
 
 # Pixeldrain API settings
 PIXELDRAIN_API_URL = "https://pixeldrain.com/api/file"
-
-# Your formatting function
-def format_bytes(num_bytes):
-    if num_bytes < 1024:
-        return f"{num_bytes} B"
-    elif num_bytes < 1024 ** 2:
-        return f"{num_bytes / 1024:.2f} KB"
-    elif num_bytes < 1024 ** 3:
-        return f"{num_bytes / 1024 ** 2:.2f} MB"
-    else:
-        return f"{num_bytes / 1024 ** 3:.2f} GB"
 
 async def process_pixel_command(event):
     message_text = event.message.text
@@ -44,30 +31,27 @@ async def process_pixel_command(event):
 
 async def download_and_upload(event, download_url, file_name):
     try:
-        # Download with Progress Bar
-        progress_dots = "●●●●●●●●●●"  
+        # Download (No progress bar)
         async with TelegramClient('temp_session', api_id, api_hash) as temp_client:
             async with temp_client.download_file(download_url, file=file_name) as download_progress:  
                 async for chunk in download_progress:
-                    progress = int(10 * download_progress.downloaded_bytes / download_progress.total_bytes_expected)
-                    await event.reply( 
-                        f"Downloading: {format_bytes(download_progress.downloaded_bytes)} of {format_bytes(download_progress.total_bytes_expected)} "
-                        f"{progress_dots[:progress]}{'■' * (10 - progress)}",
-                        file=chunk,
-                    )  
+                    await event.reply(file=chunk) 
 
-        # Upload with Progress Bar:
-        progress_dots = "●●●●●●●●●●" 
+        # Upload (No progress bar)
         async for chunk in event.client.iter_upload(file=file_name):
-            progress = int(10 * chunk.current_bytes / chunk.total_bytes)
-            await event.respond(
-                f"Uploading to Pixeldrain: {format_bytes(chunk.current_bytes)} of {format_bytes(chunk.total_bytes)} " 
-                f"{progress_dots[:progress]}{'■' * (10 - progress)}"  
-            ) 
+            # No progress update here
 
-        # ... (Rest of your Pixeldrain upload code)
+        # Pixeldrain Upload (same as before)
+        response = requests.post(
+            PIXELDRAIN_API_URL,
+            data={"name": file_name, "anonymous": True},
+            files={"file": open(file_name, 'rb')}  
+        )
+        response.raise_for_status() 
+        resp = response.json()
+        await event.reply(f"https://pixeldrain.com/u/{resp['id']}")
 
     except requests.exceptions.RequestException as e:
         await event.reply(f"Error downloading file: {e}")
 
-# ... (Rest of your bot setup functions and main function)
+# ... (Rest of your bot setup functions and main function) 
