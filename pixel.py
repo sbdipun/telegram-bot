@@ -2,6 +2,7 @@ import asyncio
 import os
 import requests
 from telethon import TelegramClient
+from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
