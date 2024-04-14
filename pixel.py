@@ -1,11 +1,17 @@
 import asyncio
 import os
-import time
-import math
 import requests
 from telethon import TelegramClient
 from dotenv import load_dotenv             
 from progress_for_telethon import progress2
+
+# Load environment variables
+load_dotenv()
+api_id = int(os.getenv("api_id"))
+api_hash = os.getenv("api_hash")
+bot_token = os.getenv("bot_token")
+
+client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
 
 # Your Pixel bot logic
 async def process_pixel_command(event):
