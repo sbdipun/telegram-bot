@@ -57,19 +57,3 @@ async def process_pixel_command(event):
 
     await download_and_upload(event, download_url, custom_filename)
    
-async def upload_to_pixeldrain(event, file_content, file_name):
-    try:
-        response = requests.post(
-            PIXELDRAIN_API_URL,
-            data={"name": file_name, "anonymous": True},
-            files={"file": file_content}
-        )
-        response.raise_for_status()
-        resp = response.json()
-        await event.reply(f"https://pixeldrain.com/u/{resp['id']}")
-    except requests.exceptions.RequestException as e:
-        await event.reply(f"Error uploading file: {e}")
-        
-
-# ... (Rest of your bot setup functions and main function, e.g., connecting to Telegram)
-            
