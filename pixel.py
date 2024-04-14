@@ -1,7 +1,9 @@
 import asyncio
 import requests
+import os
 import tqdm
 from telethon import TelegramClient
+from dotenv import load_dotenv
 
 # Pixeldrain API settings
 PIXELDRAIN_API_URL = "https://pixeldrain.com/api/file"
