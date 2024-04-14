@@ -1,6 +1,15 @@
 import asyncio
+import os
 import requests
 from telethon import TelegramClient
+
+# Load environment variables
+load_dotenv()
+api_id = int(os.getenv("api_id"))
+api_hash = os.getenv("api_hash")
+bot_token = os.getenv("bot_token") # Replace with your Telegram chat ID
+
+client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
 
 # Pixeldrain API settings
 PIXELDRAIN_API_URL = "https://pixeldrain.com/api/file"
