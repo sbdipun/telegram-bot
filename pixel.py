@@ -1,20 +1,13 @@
 import asyncio
 import os
+import time
+import math
 import requests
 from telethon import TelegramClient
-from dotenv import load_dotenv
+from dotenv import load_dotenv             
+from progress_for_telethon import progress2
 
-# Load environment variables
-load_dotenv()
-api_id = int(os.getenv("api_id"))
-api_hash = os.getenv("api_hash")
-bot_token = os.getenv("bot_token") # Replace with your Telegram chat ID
-
-client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
-
-# Pixeldrain API settings
-PIXELDRAIN_API_URL = "https://pixeldrain.com/api/file"
-
+# Your Pixel bot logic
 async def process_pixel_command(event):
     message_text = event.message.text
     args = message_text.split()[1:]
@@ -41,15 +34,18 @@ async def process_pixel_command(event):
 
 async def download_and_upload(event, download_url, file_name):
     try:
-        # Download (No progress bar)
+        # Download with Progress Bar
+        start = time.time()  
         async with TelegramClient('temp_session', api_id, api_hash) as temp_client:
             async with temp_client.download_file(download_url, file=file_name) as download_progress:  
                 async for chunk in download_progress:
-                    await event.reply(file=chunk) 
+                    await event.reply(file=chunk)
+                    await progress2(download_progress.downloaded_bytes, download_progress.total_bytes_expected, event, start, "Downloading", file_name)
 
-        # Upload (No progress bar)
+        # Upload with Progress Bar:
+        start = time.time() 
         async for chunk in event.client.iter_upload(file=file_name):
-            # No progress update here
+            await progress2(chunk.current_bytes, chunk.total_bytes, event, start, "Uploading")
 
         # Pixeldrain Upload (same as before)
         response = requests.post(
