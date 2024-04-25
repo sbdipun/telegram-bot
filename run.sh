@@ -1,1 +1,1 @@
-python crazy.py
+
