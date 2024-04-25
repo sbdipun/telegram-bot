@@ -3,12 +3,7 @@ import re
 import telethon
 from telethon import TelegramClient, events, Button
 from imdb import Cinemagoer
-from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from re import IGNORECASE
-from pyrogram.handlers import MessageHandler, CallbackQueryHandler
-from pyrogram.filters import command, regex
-from pyrogram.errors import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
 import os
 import tgcrypto
 import asyncio
