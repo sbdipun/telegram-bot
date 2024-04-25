@@ -24,7 +24,7 @@ imdb = Cinemagoer()
 
 app = TelegramClient('imdbbot', api_id, api_hash).start(bot_token=bot_token)
 
-@bot.on(events.NewMessage(pattern='/start'))
+@app.on(events.NewMessage(pattern='/start'))
 async def start(event):
     await event.respond(f"Hi! Send /encode To Start.\n\nFor more info see /help")
     raise events.StopPropagation
