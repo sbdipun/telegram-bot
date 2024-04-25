@@ -9,7 +9,6 @@ from pyrogram.filters import command, regex
 from pyrogram.errors import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
 import os
 import tgcrypto
-import asynco
 from dotenv import load_dotenv
 
 
