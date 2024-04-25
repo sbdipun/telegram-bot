@@ -51,7 +51,7 @@ async def imdb_search(event: events.NewMessage.Event):
                 buttons.append(Button.inline(f"🎬 {movie.get('title')} ({movie.get('year')})", data=f"imdb {user_id} movie {movie.movieID}"))
 
         buttons.append(Button.inline("🚫 Close 🚫", data=f"imdb {user_id} close")) 
-        await event.edit(k, '<b><i>Here What I found on IMDb.com</i></b>', buttons=buttons) 
+        await event.edit(message_id=some_message_id, text='<b><i>Here What I found on IMDb.com</i></b>', buttons=buttons)  
 
     else:
         await event.respond('Send Movie / TV Series Name along with /imdb Command or send IMDB URL') 
