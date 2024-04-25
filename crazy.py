@@ -26,7 +26,7 @@ app = TelegramClient('imdbbot', api_id, api_hash).start(bot_token=bot_token)
 
 @app.on(events.NewMessage(pattern='/start'))
 async def start(event):
-    await event.respond(f"Hi! Send /encode To Start.\n\nFor more info see /help")
+    await event.respond(f"Hi! I Am IMDB Bot. Send movie/Series Naame After /imdb")
     raise events.StopPropagation
   
 @app.on(events.NewMessage(pattern='/imdb'))  # Decorator for command handling
