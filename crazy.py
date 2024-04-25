@@ -65,7 +65,7 @@ def get_poster(query, bulk=False, id=False, file=None):
   if not id:
       query = (query.strip()).lower()
       title = query
-      year = findall(r'[1-2]\d{3}$', query, IGNORECASE)
+      year = re.findall(r'[1-2]\d{3}$', query, re.IGNORECASE)
       if year:
           year = list_to_str(year[:1])
           title = (query.replace(year, "")).strip()
