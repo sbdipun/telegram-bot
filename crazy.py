@@ -34,7 +34,7 @@ async def imdb_search(event: events.NewMessage.Event):
     if ' ' in event.message.message:  # Access message text
         k = await event.respond('<code>Searching IMDB ...</code>')
         title = event.message.message.split(' ', 1)[1]
-        user_id = message.from_user.id
+        user_id = event.message.from_id.user_id 
         buttons = ButtonMaker()
         if title.lower().startswith("https://www.imdb.com/title/tt"):
             movieid = title.replace("https://www.imdb.com/title/tt", "")
@@ -51,7 +51,7 @@ async def imdb_search(event: events.NewMessage.Event):
         buttons.ibutton("🚫 Close 🚫", f"imdb {user_id} close")
         await editMessage(k, '<b><i>Here What I found on IMDb.com</i></b>', buttons.build_menu(1))
     else:
-         await event.respond('<i>Send Movie / TV Series Name along with /imdb Command or send IMDB URL</i>')
+         await event.respond('Send Movie / TV Series Name along with /imdb Command or send IMDB URL')
 
 
 IMDB_GENRE_EMOJI = {"Action": "🚀", "Adult": "🔞", "Adventure": "🌋", "Animation": "🎠", "Biography": "📜", "Comedy": "🪗", "Crime": "🔪", "Documentary": "🎞", "Drama": "🎭", "Family": "👨‍👩‍👧‍👦", "Fantasy": "🫧", "Film Noir": "🎯", "Game Show": "🎮", "History": "🏛", "Horror": "🧟", "Musical": "🎻", "Music": "🎸", "Mystery": "🧳", "News": "📰", "Reality-TV": "🖥", "Romance": "🥰", "Sci-Fi": "🌠", "Short": "📝", "Sport": "⛳", "Talk-Show": "👨‍🍳", "Thriller": "🗡", "War": "⚔", "Western": "🪩"}
