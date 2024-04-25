@@ -218,9 +218,9 @@ async def imdb_callback(event: events.CallbackQuery.Event):
             except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
               poster = imdb.get('poster').replace('.jpg', "._V1_UX360.jpg")
               await sendMessage(message.reply_to_message, cap, InlineKeyboardMarkup(buttons), poster)
-      else:
-          await sendMessage(message.reply_to_message, cap, InlineKeyboardMarkup(buttons), 'https://telegra.ph/file/5af8d90a479b0d11df298.jpg')
-      await message.delete()
+        else:
+            await sendMessage(message.reply_to_message, cap, InlineKeyboardMarkup(buttons), 'https://telegra.ph/file/5af8d90a479b0d11df298.jpg')
+        await message.delete()
 app.add_event_handler(imdb_callback, events.CallbackQuery(pattern=b'imdb'))
 
 
