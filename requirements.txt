@@ -1,5 +1,6 @@
 telethon
 python-dotenv
-requests
-argparse
-tqdm
+pyrogram
+tgcrypto
+re
+Cinemagoer
