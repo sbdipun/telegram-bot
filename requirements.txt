@@ -3,3 +3,4 @@ python-dotenv
 pyrogram
 tgcrypto
 Cinemagoer
+asyncio
