@@ -22,9 +22,13 @@ bot_token = os.getenv("bot_token")
 
 imdb = Cinemagoer()
 
-app = TelegramClient('crazybot', api_id, api_hash).start(bot_token=bot_token)
-  
+app = TelegramClient('imdbbot', api_id, api_hash).start(bot_token=bot_token)
 
+@bot.on(events.NewMessage(pattern='/start'))
+async def start(event):
+    await event.respond(f"Hi! Send /encode To Start.\n\nFor more info see /help")
+    raise events.StopPropagation
+  
 async def imdb_search(_, message):
   if ' ' in message.text:
       k = await sendMessage(message, '<code>Searching IMDB ...</code>')
@@ -172,16 +176,20 @@ def list_to_hash(k, flagg=False, emoji=False):
           listing += f'#{ele}, '
       return listing[:-2]
 
-async def imdb_callback(_, query):
-  message = query.message
-  user_id = query.from_user.id
-  data = query.data.split()
-  if user_id != int(data[1]):
-      await query.answer("Not Yours!", show_alert=True)
-  elif data[2] == "movie":
-      await query.answer()
-      imdb = get_poster(query=data[3], id=True)
-      buttons = []
+async def imdb_callback(event: events.CallbackQuery.Event):
+    """Handles callbacks starting with 'imdb'."""
+    message = event.original_update.message  # The original message
+    user_id = event.original_update.user_id
+    data = event.data.decode().split()  # Decode data for reliability
+
+    if user_id != int(data[1]):
+        await event.answer("Not Yours!", show_alert=True)
+        return
+
+    if data[2] == "movie":
+        await event.answer()  # Acknowledge callback
+        imdb = get_poster(query=data[3], id=True)
+        buttons = []
       if imdb['trailer']:
           if isinstance(imdb['trailer'], list):
               buttons.append([InlineKeyboardButton("▶️ IMDb Trailer ", url=str(imdb['trailer'][-1]))])
@@ -210,7 +218,7 @@ async def imdb_callback(_, query):
       else:
           await sendMessage(message.reply_to_message, cap, InlineKeyboardMarkup(buttons), 'https://telegra.ph/file/5af8d90a479b0d11df298.jpg')
       await message.delete()
-app.add_handler(CallbackQueryHandler(imdb_callback, filters=regex(r'^imdb')))
+app.add_event_handler(imdb_callback, events.CallbackQuery(pattern=b'imdb'))
 
 
 def main():
