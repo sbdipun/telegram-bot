@@ -34,7 +34,7 @@ async def imdb_search(event: events.NewMessage.Event):
     if ' ' in event.message.message:  # Access message text
         k = await event.respond('<code>Searching IMDB ...</code>')
         title = event.message.message.split(' ', 1)[1]
-        user_id = event.message.from_id.user_id 
+        user_id = event.sender_id  
         buttons = ButtonMaker()
         if title.lower().startswith("https://www.imdb.com/title/tt"):
             movieid = title.replace("https://www.imdb.com/title/tt", "")
