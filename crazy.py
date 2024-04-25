@@ -213,7 +213,7 @@ app.add_handler(CallbackQueryHandler(imdb_callback, filters=regex(r'^imdb')))
 def main():
     """Start the bot."""
     print("\nBot started ...\n")
-    client.run_until_disconnected()
+    app.run_until_disconnected()
 
 if __name__ == '__main__':
     main()
