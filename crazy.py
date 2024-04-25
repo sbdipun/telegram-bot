@@ -196,8 +196,9 @@ async def imdb_callback(event: events.CallbackQuery.Event):
                                                               imdb['trailer'] = list_to_str(imdb['trailer']) 
                           else: 
                               buttons.append([InlineKeyboardButton("▶️ IMDb Trailer ", url=str(imdb['trailer']))])
-      template = '''⚡𝐓𝐢𝐭𝐥𝐞:  {title}
+        template = '''
         
+⚡𝐓𝐢𝐭𝐥𝐞:  {title}\        
 ⚡𝐈𝐌𝐃𝐁 𝐑𝐚𝐭𝐢𝐧𝐠 : {rating} 
 ⚡𝐐𝐮𝐚𝐥𝐢𝐭𝐲:  
 ⚡𝐑𝐞𝐥𝐞𝐚𝐬𝐞 𝐃𝐚𝐭𝐞:  {release_date}
@@ -209,7 +210,8 @@ async def imdb_callback(event: events.CallbackQuery.Event):
 
 ⚡𝐒𝐭𝐨𝐫𝐲 𝐋𝐢𝐧𝐞: {plot}
 
-⚡️𝐉𝐨𝐢𝐧 𝐍𝐨𝐰 :'''
+⚡️𝐉𝐨𝐢𝐧 𝐍𝐨𝐰 :
+                  '''
       if imdb.get('poster'):
           try:
               await bot.send_photo(chat_id=query.message.reply_to_message.chat.id,  caption=cap, photo=imdb['poster'], reply_to_message_id=query.message.reply_to_message.id, reply_markup=InlineKeyboardMarkup(buttons))
