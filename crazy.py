@@ -192,10 +192,10 @@ async def imdb_callback(event: events.CallbackQuery.Event):
         buttons = []
         if imdb['trailer']:
                           if isinstance(imdb['trailer'], list):
-                          buttons.append([InlineKeyboardButton("▶️ IMDb Trailer ", url=str(imdb['trailer'][-1]))])
-                          imdb['trailer'] = list_to_str(imdb['trailer']) 
+                                                              buttons.append([InlineKeyboardButton("▶️ IMDb Trailer ", url=str(imdb['trailer'][-1]))])
+                                                              imdb['trailer'] = list_to_str(imdb['trailer']) 
                           else: 
-            buttons.append([InlineKeyboardButton("▶️ IMDb Trailer ", url=str(imdb['trailer']))])
+                              buttons.append([InlineKeyboardButton("▶️ IMDb Trailer ", url=str(imdb['trailer']))])
       template = '''⚡𝐓𝐢𝐭𝐥𝐞:  {title}
         
 ⚡𝐈𝐌𝐃𝐁 𝐑𝐚𝐭𝐢𝐧𝐠 : {rating} 
