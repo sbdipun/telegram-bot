@@ -212,10 +212,10 @@ async def imdb_callback(event: events.CallbackQuery.Event):
 
 ⚡️𝐉𝐨𝐢𝐧 𝐍𝐨𝐰 :
                   '''
-      if imdb.get('poster'):
-          try:
-              await bot.send_photo(chat_id=query.message.reply_to_message.chat.id,  caption=cap, photo=imdb['poster'], reply_to_message_id=query.message.reply_to_message.id, reply_markup=InlineKeyboardMarkup(buttons))
-          except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
+        if imdb.get('poster'):
+            try:
+                await bot.send_photo(chat_id=query.message.reply_to_message.chat.id,  caption=cap, photo=imdb['poster'], reply_to_message_id=query.message.reply_to_message.id, reply_markup=InlineKeyboardMarkup(buttons))
+            except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
               poster = imdb.get('poster').replace('.jpg', "._V1_UX360.jpg")
               await sendMessage(message.reply_to_message, cap, InlineKeyboardMarkup(buttons), poster)
       else:
