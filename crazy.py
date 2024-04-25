@@ -1,5 +1,7 @@
 import os
 import re
+import telethon
+from telethon import TelegramClient, events, Button
 from imdb import Cinemagoer
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
@@ -20,7 +22,7 @@ bot_token = os.getenv("bot_token")
 
 imdb = Cinemagoer()
 
-app = Client("my_imdb_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
+app = TelegramClient('crazybot', api_id, api_hash).start(bot_token=bot_token)
   
 
 async def imdb_search(_, message):
