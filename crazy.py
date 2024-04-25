@@ -24,29 +24,37 @@ async def start(event):
     await event.respond(f"Hi! I Am IMDB Bot. Send movie/Series Naame After /imdb")
     raise events.StopPropagation
   
-@app.on(events.NewMessage(pattern='/imdb'))  # Decorator for command handling
+# IMDb Search Handler
+@app.on(events.NewMessage(pattern='/imdb'))  
 async def imdb_search(event: events.NewMessage.Event):
-    if ' ' in event.message.message:  # Access message text
+    if ' ' in event.message.message: 
         k = await event.respond('<code>Searching IMDB ...</code>')
         title = event.message.message.split(' ', 1)[1]
         user_id = event.sender_id  
-        buttons = ButtonMaker()
+
+        buttons = []  
+
         if title.lower().startswith("https://www.imdb.com/title/tt"):
             movieid = title.replace("https://www.imdb.com/title/tt", "")
+
             if movie := imdb.get_movie(movieid):
-                buttons.ibutton(f"🎬 {movie.get('title')} ({movie.get('year')})", f"imdb {user_id} movie {movieid}")
+                buttons.append(Button.inline(f"🎬 {movie.get('title')} ({movie.get('year')})", data=f"imdb {user_id} movie {movieid}"))
             else:
-                return await editMessage(k, "<i>No Results Found</i>")
+                return await event.edit(k, "<i>No Results Found</i>")  
+
         else:
             movies = get_poster(title, bulk=True)
             if not movies:
-                return editMessage("<i>No Results Found</i>, Try Again or Use <b>Title ID</b>", k)
-            for movie in movies: # Refurbished Soon !!
-                buttons.ibutton(f"🎬 {movie.get('title')} ({movie.get('year')})", f"imdb {user_id} movie {movie.movieID}")
-        buttons.ibutton("🚫 Close 🚫", f"imdb {user_id} close")
-        await editMessage(k, '<b><i>Here What I found on IMDb.com</i></b>', buttons.build_menu(1))
+                return await event.edit(k, "<i>No Results Found</i>, Try Again or Use <b>Title ID</b>") 
+
+            for movie in movies: 
+                buttons.append(Button.inline(f"🎬 {movie.get('title')} ({movie.get('year')})", data=f"imdb {user_id} movie {movie.movieID}"))
+
+        buttons.append(Button.inline("🚫 Close 🚫", data=f"imdb {user_id} close")) 
+        await event.edit(k, '<b><i>Here What I found on IMDb.com</i></b>', buttons=buttons) 
+
     else:
-         await event.respond('Send Movie / TV Series Name along with /imdb Command or send IMDB URL')
+        await event.respond('Send Movie / TV Series Name along with /imdb Command or send IMDB URL') 
 
 
 IMDB_GENRE_EMOJI = {"Action": "🚀", "Adult": "🔞", "Adventure": "🌋", "Animation": "🎠", "Biography": "📜", "Comedy": "🪗", "Crime": "🔪", "Documentary": "🎞", "Drama": "🎭", "Family": "👨‍👩‍👧‍👦", "Fantasy": "🫧", "Film Noir": "🎯", "Game Show": "🎮", "History": "🏛", "Horror": "🧟", "Musical": "🎻", "Music": "🎸", "Mystery": "🧳", "News": "📰", "Reality-TV": "🖥", "Romance": "🥰", "Sci-Fi": "🌠", "Short": "📝", "Sport": "⛳", "Talk-Show": "👨‍🍳", "Thriller": "🗡", "War": "⚔", "Western": "🪩"}
