@@ -210,5 +210,12 @@ async def imdb_callback(_, query):
       await message.delete()
 app.add_handler(CallbackQueryHandler(imdb_callback, filters=regex(r'^imdb')))
 
-app.run()
+
+def main():
+    """Start the bot."""
+    print("\nBot started ...\n")
+    client.run_until_disconnected()
+
+if __name__ == '__main__':
+    main()
 
