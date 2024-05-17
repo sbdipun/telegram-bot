@@ -19,7 +19,7 @@ async def start(_, message):
     await message.reply_text('''
     Hello {} 👋🏻
 I'am A Multi use Bot with many usefull features.
-Eg:- Telegarph, Channel ID, Image editor etc... """'''
+Eg:- Telegarph Upload, IMDB Details etc... """'''
                              )
 
 
