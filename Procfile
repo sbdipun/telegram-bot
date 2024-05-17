@@ -1,1 +1,1 @@
-clint: python bot.py
+clint: python main.py
