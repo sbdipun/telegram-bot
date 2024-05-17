@@ -1,5 +1,9 @@
 # telegram-bot
-Generate High Qualaity Screenshots
+A Telegram Multi Purpose Bot 
+generates IMDB Informations, Upload Image to Graph.org Server etc
+
+Many More Coming...
+
 ## 🚀 Deployment
 
 ### 💜 Heroku
