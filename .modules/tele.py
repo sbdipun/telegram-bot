@@ -1,3 +1,4 @@
+#script for telegraph upload
 import os
 from telegraph import upload_file
 import logging
