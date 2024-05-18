@@ -8,7 +8,7 @@ from pyrogram.types import Message
 
 DOWNLOAD_LOCATION = "./DOWNLOADS/"  # Directory to store downloaded files
 
-@app.on_message(filters.command("pixurl"))
+@Client.on_message(filters.command("pixurl"))
 async def upload_from_url(_, message: Message):
     """Handle the /pixurl command for uploading from URL."""
     if len(message.command) < 2:
