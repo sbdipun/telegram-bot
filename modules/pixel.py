@@ -56,7 +56,7 @@ async def upload_from_url(client, message: Message):
 async def upload_to_pixeldrain(file_path, message):# Remove the 'client' argument
     """Uploads a file to Pixeldrain and sends the link."""
     try:
-        except FileNotFoundError as e: 
+        except FileNotFoundError as e
         await message.reply_text(f"File not found: {e}")
     except Exception as e:  
         print(f"Error uploading to Pixeldrain: {e}")
