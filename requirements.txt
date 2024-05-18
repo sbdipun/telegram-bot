@@ -5,3 +5,4 @@ Cinemagoer
 asyncio
 pycountry
 telegraph
+aiohttp
