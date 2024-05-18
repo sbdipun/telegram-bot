@@ -53,12 +53,31 @@ async def upload_from_url(client, message: Message):
             os.remove(file_path)
 
 
-async def upload_to_pixeldrain(file_path, message):# Remove the 'client' argument
+async def upload_to_pixeldrain(file_path, message):
     """Uploads a file to Pixeldrain and sends the link."""
     try:
-        except FileNotFoundError as e
+        with open(file_path, "rb") as f:
+            file_content = f.read()
+
+        await message.reply_text("Uploading to Pixeldrain...")
+
+        response = requests.post(
+            "https://pixeldrain.com/api/file",
+            data={"name": file_path, "anonymous": True},
+            files={"file": file_content}
+        )
+
+        if response.status_code == 200:
+            resp = response.json()
+            link = f"https://pixeldrain.com/u/{resp['id']}"
+            await message.reply_text(f"File uploaded to Pixeldrain:\n{link}")
+        else:
+            await message.reply_text(f"Pixeldrain upload failed with status code: {response.status_code}")
+
+    except FileNotFoundError as e: # Specific error for missing files
         await message.reply_text(f"File not found: {e}")
-    except Exception as e:  
+    except Exception as e:  # Catch-all for other errors
         print(f"Error uploading to Pixeldrain: {e}")
         await message.reply_text(f"An error occurred: {e}")
+
 
