@@ -3,7 +3,7 @@ import aiohttp
 from pyrogram import Client, filters
 
 @Client.on_message(filters.command("pixurl"))
-async def pixel(, message):
+async def pixel(_, message):
     if len(message.command) < 2:
         await message.reply_text("Please provide a URL after the command.")
         return
