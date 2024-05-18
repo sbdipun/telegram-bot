@@ -50,7 +50,7 @@ async def start(_, message):
     ''')
 
 app.add_handler(MessageHandler(telegraph_upload, filters.command("tgm")))
-app.add_handler(MessageHandler(pixel, filters.command("pix") & filters.text))
+app.add_handler(MessageHandler(pixel, filters.command("pixurl") & filters.text))
 app.add_handler(MessageHandler(imdb_search, filters.command("imdb")))
 app.add_handler(CallbackQueryHandler(imdb_callback, filters=regex(r'^imdb')))
 # Start the bot
