@@ -1,6 +1,7 @@
 python-dotenv
 pyrogram
-tgcrypto
+TgCrypto
 Cinemagoer
 asyncio
 pycountry
+telegraph
