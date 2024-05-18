@@ -3,8 +3,8 @@ import os
 from pyrogram import Client, filters
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 from pyrogram.filters import regex
-from .modules.tele import telegraph_upload
-from .modules.imdbb import imdb_callback, imdb_search
+from modules.tele import telegraph_upload
+from modules.imdbb import imdb_callback, imdb_search
 
 load_dotenv()
 api_id = int(os.getenv("api_id"))
