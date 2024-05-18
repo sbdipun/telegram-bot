@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 import os
-from modules.pix import pixel
+from modules.pix import upload_to_pixeldrain
 from pyrogram import Client, filters
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 from pyrogram.filters import regex
@@ -50,7 +50,7 @@ async def start(_, message):
     ''')
 
 app.add_handler(MessageHandler(telegraph_upload, filters.command("tgm")))
-app.add_handler(MessageHandler(pixel, filters.command("pixurl") & filters.text))
+app.add_handler(MessageHandler(upload_to_pixeldrain, filters.command("pixurl")))
 app.add_handler(MessageHandler(imdb_search, filters.command("imdb")))
 app.add_handler(CallbackQueryHandler(imdb_callback, filters=regex(r'^imdb')))
 # Start the bot
