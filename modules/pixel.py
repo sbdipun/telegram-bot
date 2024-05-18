@@ -3,53 +3,56 @@ import requests
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-# ... (Your other imports and bot setup) ...
+# Your Pyrogram bot setup... 
+# Assuming you have your bot object as 'app'
 
 DOWNLOAD_LOCATION = "./DOWNLOADS/"  # Directory to store downloaded files
 
-
-@Client.on_message(filters.command("pixurl"))
+@app.on_message(filters.command("pixurl"))
 async def upload_from_url(_, message: Message):
     """Handle the /pixurl command for uploading from URL."""
-    args = message.text.split()  # Split the command into arguments
-    url = args[1] if len(args) > 1 else None  # Get the URL
-    new_filename = args[2] if len(args) > 2 else None  # Get the new filename
+    if len(message.command) < 2:
+        return await message.reply_text("Please provide a URL after the command. E.g., `/pixurl https://example.com/image.jpg [optional_new_filename.ext]`")
+    
+    url = message.command[1]
+    new_filename = message.command[2] if len(message.command) > 2 else None
 
-    if not url:
-        return await message.reply_text("Please provide a URL after the command.")  # Added new_filename argument
+    # Basic URL validation
+    if not url.startswith("http"):
+        return await message.reply_text("Invalid URL. Please provide a valid link.")
 
     try:
-        file_extension = os.path.splitext(url)[1]  # Get the file extension from the URL
+        file_extension = os.path.splitext(url)[1] if new_filename is None else os.path.splitext(new_filename)[1]
 
         # Use the new filename if provided, otherwise keep the original filename
         file_name = f"{new_filename or url.split('/')[-1]}"
 
         # If no file extension is provided in the new filename, use the original extension
-        if not new_filename.endswith(file_extension):
+        if not new_filename or not new_filename.endswith(file_extension):
             file_name += file_extension
 
         file_path = os.path.join(DOWNLOAD_LOCATION, file_name)
 
         await message.reply_text("Downloading from URL...")
         response = requests.get(url, stream=True)
-        response.raise_for_status()  # Raise an exception if download fails
+        response.raise_for_status()
 
         with open(file_path, "wb") as f:
             for chunk in response.iter_content(chunk_size=8192):
                 f.write(chunk)
 
-        await upload_to_pixeldrain(file_path, message) 
+        await upload_to_pixeldrain(file_path, message)
 
+    except requests.exceptions.RequestException as e:
+        await message.reply_text(f"Error downloading the file: {e}")
     except Exception as e:
         print(f"Error downloading or uploading from URL: {e}")
         await message.reply_text(f"An error occurred: {e}")
     finally:
         if os.path.exists(file_path):
-            os.remove(file_path)  # Clean up the downloaded file
-
+            os.remove(file_path)
 
 async def upload_to_pixeldrain(file_path, message):
-    """Uploads a file to Pixeldrain and sends the link."""
     try:
         with open(file_path, "rb") as f:
             file_content = f.read()
