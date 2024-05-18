@@ -3,7 +3,7 @@ import aiohttp
 from pyrogram import Client, filters
 
 @Client.on_message(filters.command("pixurl"))
-async def pixel(_, message):
+async def pixel(, message):
     if len(message.command) < 2:
         await message.reply_text("Please provide a URL after the command.")
         return
@@ -23,10 +23,13 @@ async def pixel(_, message):
             await message.reply_text(f"Error downloading the file: {str(e)}")
             return
 
+        # Prepare data for file upload using multipart/form-data
+        data = aiohttp.FormData()
+        data.add_field('file', data, filename=file_name, content_type='application/octet-stream')
+
         # Upload file to Pixeldrain
         try:
-            files = {'file': (file_name, data)}
-            async with session.post("https://pixeldrain.com/api/file", data={"name": file_name}, files=files) as response:
+            async with session.post("https://pixeldrain.com/api/file", data=data) as response:
                 if response.status != 200:
                     await message.reply_text("Failed to upload the file to Pixeldrain.")
                     return
