@@ -3,17 +3,17 @@ import requests
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-# Your Pyrogram bot setup... 
-# Assuming you have your bot object as 'app'
+# ... (Your other imports and bot setup) ...
 
 DOWNLOAD_LOCATION = "./DOWNLOADS/"  # Directory to store downloaded files
 
+
 @Client.on_message(filters.command("pixurl"))
-async def upload_from_url(_, message: Message):
+async def upload_from_url(client, message: Message):  
     """Handle the /pixurl command for uploading from URL."""
     if len(message.command) < 2:
-        return await message.reply_text("Please provide a URL after the command. E.g., `/pixurl https://example.com/image.jpg [optional_new_filename.ext]`")
-    
+        return await message.reply_text("Please provide a URL after the command. E.g., `/pixurl https://example.com/image.jpg [optional_new_filename.ext]`")  
+
     url = message.command[1]
     new_filename = message.command[2] if len(message.command) > 2 else None
 
@@ -41,7 +41,7 @@ async def upload_from_url(_, message: Message):
             for chunk in response.iter_content(chunk_size=8192):
                 f.write(chunk)
 
-        await upload_to_pixeldrain(file_path, message)
+        await upload_to_pixeldrain(file_path, message)  # Pass file_path
 
     except requests.exceptions.RequestException as e:
         await message.reply_text(f"Error downloading the file: {e}")
@@ -52,26 +52,13 @@ async def upload_from_url(_, message: Message):
         if os.path.exists(file_path):
             os.remove(file_path)
 
-async def upload_to_pixeldrain(file_path, message):
+
+async def upload_to_pixeldrain(file_path, message): # Remove the 'client' argument
+    """Uploads a file to Pixeldrain and sends the link."""
     try:
-        with open(file_path, "rb") as f:
-            file_content = f.read()
-
-        await message.reply_text("Uploading to Pixeldrain...")
-
-        response = requests.post(
-            "https://pixeldrain.com/api/file",
-            data={"name": file_path, "anonymous": True},
-            files={"file": file_content}
-        )
-
-        if response.status_code == 200:
-            resp = response.json()
-            link = f"https://pixeldrain.com/u/{resp['id']}"
-            await message.reply_text(f"File uploaded to Pixeldrain:\n{link}")
-        else:
-            await message.reply_text(f"Pixeldrain upload failed with status code: {response.status_code}")
-
-    except Exception as e:
+        # ... (rest of your upload_to_pixeldrain function) ...
+    except FileNotFoundError as e: # Specific error for missing files
+        await message.reply_text(f"File not found: {e}")
+    except Exception as e:  # Catch-all for other errors
         print(f"Error uploading to Pixeldrain: {e}")
         await message.reply_text(f"An error occurred: {e}")
