@@ -7,7 +7,7 @@ async def pixel(_, message):
 
     # Get the URL from the command
     if len(message.command) < 2:
-        return await message.reply_text("Please provide a URL after the command. E.g., `/pixurl https://example.com/image.jpg`")
+        return await message.reply_text("Please provide a URL after the command")
     url = message.command[1]
     file_name = url.split('/')[-1]
 
