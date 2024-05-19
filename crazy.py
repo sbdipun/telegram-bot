@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 import os
-from modules.pix import pixel
+from modules.animex import get_waifu
 from pyrogram import Client, filters
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 from pyrogram.filters import regex
@@ -46,11 +46,12 @@ async def start(_, message):
 * /start - To see if the bot is alive!
 * /imdb - Fetch Movie/series Details
 * /tgm - Upload image to Graph.org 
+* /anime - Generates Random Anime Pics
 * /about - To see Bot Stats
     ''')
 
 app.add_handler(MessageHandler(telegraph_upload, filters.command("tgm")))
-app.add_handler(MessageHandler(pixel, filters.command("pixurl")))
+app.add_handler(MessageHandler(pixel, filters.command("anime")))
 app.add_handler(MessageHandler(imdb_search, filters.command("imdb")))
 app.add_handler(CallbackQueryHandler(imdb_callback, filters=regex(r'^imdb')))
 # Start the bot
