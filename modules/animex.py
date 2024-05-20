@@ -18,10 +18,14 @@ regex_photo = ["waifu", "neko", "pat", "bunk", "smug", "happy"]
 
 @Client.on_message(filters.command("anime"))
 async def get_waifu(_, message):
-    try:  # Error handling
+    try:  
         pht = random.choice(regex_photo)
         url = f"https://api.waifu.pics/sfw/{pht}"
         logger.info(f"Requesting image from API for type: {pht}")  # Log the request type
+        text = await message.reply_text("<code>Generating....", disable_web_page_preview=True)
+        logger.info(f"Generating...")
+        await text.edit_text(f"Generated!!")
+        await text.delete()
 
         response = requests.get(url)
         if response.status_code == 200:
