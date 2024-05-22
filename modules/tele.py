@@ -40,7 +40,7 @@ async def telegraph_upload(_, update):
         return
     await text.edit_text(
         text=f"https://graph.org{response[0]}",
-        disable_web_page_preview=True,
+        disable_web_page_preview=False,
         reply_markup=InlineKeyboardMarkup(
             [[InlineKeyboardButton("Owner 🌺", url=f't.me/kingsb007')]]
         )
