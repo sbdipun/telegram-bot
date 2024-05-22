@@ -1,11 +1,17 @@
 from dotenv import load_dotenv
 import os
+import logging
 from modules.animex import get_waifu
+from modules.randompass import generate_password
 from pyrogram import Client, filters
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 from pyrogram.filters import regex
 from modules.tele import telegraph_upload
 from modules.imdbb import imdb_callback, imdb_search
+
+# Configure Logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 api_id = int(os.getenv("api_id"))
@@ -14,9 +20,15 @@ bot_token = os.getenv("bot_token")
 
 app = Client("imdb_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
+# Notify about bot start
+with app:
+    app_username = app.get_me()  # Better call it global once due to telegram flood id
+    app.send_message(int(os.environ.get("OWNER_ID", "1164918935")), f"**Bot Started!!🔥**")
+
 
 @app.on_message(filters.command("start"))  # Respond in both private & groups
 async def start(_, message):
+    logger.info(f"User {message.from_user.first_name} started the bot")
     await message.reply_text('''
     Hello {} 👋🏻
 I'am A Multi use Bot with many usefull features.
@@ -47,13 +59,15 @@ async def start(_, message):
 * /imdb - Fetch Movie/series Details
 * /tgm - Upload image to Graph.org 
 * /anime - Generates Random Anime Pics
+* /pass - Generates Random Random Password
 * /about - To see Bot Stats
     ''')
 
 app.add_handler(MessageHandler(telegraph_upload, filters.command("tgm")))
+app.add_handler(MessageHandler(generate_password, filters.command("pass")))
 app.add_handler(MessageHandler(pixel, filters.command("anime")))
 app.add_handler(MessageHandler(imdb_search, filters.command("imdb")))
 app.add_handler(CallbackQueryHandler(imdb_callback, filters=regex(r'^imdb')))
 # Start the bot
-print("Bot Is Running")
+logger.info("Bot Is Running")
 app.run()
