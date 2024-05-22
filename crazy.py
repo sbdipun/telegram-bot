@@ -20,13 +20,11 @@ bot_token = os.getenv("bot_token")
 
 app = Client("imdb_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
+
 # Notify about bot start
-async def main():
-    async with app:
-        # Log bot startup
-        me = await app.get_me()
-        logger.info(f"Bot started! Username: @{me.username}")
-        await app.send_message(int(os.environ.get("OWNER_ID", "1164918935")), f"**Bot Started!!🔥**")
+with app:
+    app_username = app.get_me()  # Better call it global once due to telegram flood id
+    app.send_message(int(os.environ.get("OWNER_ID", "1164918935")), f"**Bot Started!!🔥**")
 
 
 @app.on_message(filters.command("start"))  # Respond in both private & groups
@@ -72,6 +70,5 @@ app.add_handler(MessageHandler(get_waifu, filters.command("anime")))
 app.add_handler(MessageHandler(imdb_search, filters.command("imdb")))
 app.add_handler(CallbackQueryHandler(imdb_callback, filters=regex(r'^imdb')))
 # Start the bot
-
-if __name__ == '__main__':
-    app.run(main())
+app.run()
+app.idle()
