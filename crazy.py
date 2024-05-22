@@ -21,9 +21,12 @@ bot_token = os.getenv("bot_token")
 app = Client("imdb_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
 # Notify about bot start
-with app:
-    app_username = app.get_me()  # Better call it global once due to telegram flood id
-    app.send_message(int(os.environ.get("OWNER_ID", "1164918935")), f"**Bot Started!!🔥**")
+async def main():
+    async with app:
+        # Log bot startup
+        me = await app.get_me()
+        logger.info(f"Bot started! Username: @{me.username}")
+        await app.send_message(int(os.environ.get("OWNER_ID", "1164918935")), f"**Bot Started!!🔥**")
 
 
 @app.on_message(filters.command("start"))  # Respond in both private & groups
@@ -42,8 +45,8 @@ async def about(_, message):
     ╔════❰ 𝙼𝚄𝙻𝚃𝙸 𝙱𝙾𝚃 ❱═❍
 ║╭━━━━━━━━━━━━━━━➣
 ║┣⪼🤖ᴍʏ ɴᴀᴍᴇ : {bot}
-║┣⪼🗣️ʟᴀɴɢᴜᴀɢᴇ : <a href=https://www.python.org>ᴘʏᴛʜᴏɴ3</a>
-║┣⪼📚ʟɪʙʀᴀʀʏ : <a href=https://github.com/pyrogram>ᴘʏʀᴏɢʀᴀᴍ</a> 
+║┣⪼🗣️ʟᴀɴɢᴜᴀɢᴇ : <b>https://www.python.org>ᴘʏᴛʜᴏɴ3</b>
+║┣⪼📚ʟɪʙʀᴀʀʏ : <b>=https://github.com/pyrogram>ᴘʏʀᴏɢʀᴀᴍ</b> 
 ║┣⪼🗒️ᴠᴇʀsɪᴏɴ : 𝙼𝚄𝙻𝚃𝙸 𝙱𝙾𝚃 v1.0.0 
 ║╰━━━━━━━━━━━━━━━➣
 ╚══════════════════❍ '''
@@ -69,5 +72,6 @@ app.add_handler(MessageHandler(get_waifu, filters.command("anime")))
 app.add_handler(MessageHandler(imdb_search, filters.command("imdb")))
 app.add_handler(CallbackQueryHandler(imdb_callback, filters=regex(r'^imdb')))
 # Start the bot
-logger.info("Bot Is Running")
-app.run()
+
+if __name__ == '__main__':
+    app.run(main())
