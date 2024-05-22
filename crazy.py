@@ -65,7 +65,7 @@ async def start(_, message):
 
 app.add_handler(MessageHandler(telegraph_upload, filters.command("tgm")))
 app.add_handler(MessageHandler(generate_password, filters.command("pass")))
-app.add_handler(MessageHandler(pixel, filters.command("anime")))
+app.add_handler(MessageHandler(get_waifu, filters.command("anime")))
 app.add_handler(MessageHandler(imdb_search, filters.command("imdb")))
 app.add_handler(CallbackQueryHandler(imdb_callback, filters=regex(r'^imdb')))
 # Start the bot
